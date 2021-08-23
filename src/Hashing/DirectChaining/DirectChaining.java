@@ -1,0 +1,70 @@
+package Hashing.DirectChaining;
+
+import java.util.LinkedList;
+
+public class DirectChaining {
+    LinkedList<String>[] hashTable;
+    int maxChainSize = 15;
+
+    public DirectChaining(int size) {
+        hashTable = new LinkedList[size];
+    }
+
+    public int modACIIHashFUnction(String word, int numOfCells) {
+        char[] ch;
+        ch = word.toCharArray();
+        int i, sum;
+
+        for (sum =0, i=0; i< word.length(); i++) {
+            sum = sum + ch[i];
+        }
+
+        return sum % numOfCells;
+    }
+
+    public void insertHashTable(String word) {
+        int newIndex = modACIIHashFUnction(word, hashTable.length);
+        if (hashTable[newIndex] == null) {
+            hashTable[newIndex] = new LinkedList<>();
+            hashTable[newIndex].add(word);
+        } else  {
+            hashTable[newIndex].add(word);
+        }
+    }
+
+    public void displayHashTable() {
+        if (hashTable == null) {
+            System.out.println("\nHashTable does not exists");
+        } else {
+            System.out.println("\n------------------HashTable---------------");
+            for (int i=0; i< hashTable.length; i++) {
+                System.out.println("Index "+ i+ ", key: "+hashTable[i]);
+            }
+        }
+    }
+
+    public boolean searchHashTable(String word) {
+        int newIndex = modACIIHashFUnction(word, hashTable.length);
+
+        if (hashTable[newIndex] !=null && hashTable[newIndex].contains(word)) {
+            System.out.println("\n"+"\""+word+"\""+" found in HashTable at location: "+newIndex);
+            return true;
+        } else {
+            System.out.println("\n"+"\""+word+"\""+" not found in HashTable");
+            return false;
+        }
+    }
+
+    public void deleteKeyHashTable(String word) {
+
+        int newIndex = modACIIHashFUnction(word, hashTable.length);
+
+        boolean result = searchHashTable(word);
+        if (result) {
+            hashTable[newIndex].remove(word);
+            System.out.println("\n"+"\""+word+"\""+" Has been deleted from HashTable");
+        }
+
+
+    }
+}
